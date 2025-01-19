@@ -1,0 +1,365 @@
+package Activity;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+public class SevenEleven
+{
+	public static void main(String[] args) throws IOException
+	{	
+		File file = new File("hehe.txt");
+		file.createNewFile();
+		
+		File manufacturerFile = new File("manfile.txt");
+		manufacturerFile.createNewFile();
+		
+		File typeFile = new File("typeFile.txt");
+		typeFile.createNewFile();
+		
+		File colorFile = new File("colorfile.txt");
+		colorFile.createNewFile();
+		
+		FileHandlingClass fhc = new  FileHandlingClass();
+		
+		JFrame frame = new JFrame("7/11 Class");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(1000, 800);
+		frame.setLayout(null);
+		//------------------------------------------------------------------------
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setBounds(10, 10, 200, 300);
+		buttonsPanel.setLayout(null);
+		buttonsPanel.setBorder(BorderFactory.createTitledBorder("Actions"));
+		
+		JButton writeButton = new JButton("WRITE");
+		writeButton.setBounds(10, 20, 180, 30);
+		
+		JButton editButton = new JButton("EDIT");
+		editButton.setBounds(10, 60, 180, 30);
+		
+		JButton deleteButton = new JButton("DELETE");
+		deleteButton.setBounds(10, 100, 180, 30);
+		
+		JButton clearButton = new JButton("CLEAR");
+		clearButton.setBounds(10, 140, 180, 30);
+		
+		buttonsPanel.add(writeButton);
+		buttonsPanel.add(editButton);
+		buttonsPanel.add(deleteButton);
+		buttonsPanel.add(clearButton);
+		//------------------------------------------------------------------------
+		JPanel tablePanel = new JPanel();
+		tablePanel.setBounds(220, 10, 755, 300);
+		tablePanel.setBorder(BorderFactory.createTitledBorder("Table"));
+		tablePanel.setLayout(null);
+		
+		String[] columnHeaders = {"Model","Manufacturer","Type","Color"};
+		DefaultTableModel dtm = new DefaultTableModel(fhc.getFileContentsArray(file),columnHeaders);
+		
+		JTable table = new JTable();
+		table.setModel(dtm);
+		JScrollPane p = new JScrollPane(table);
+		p.setBounds(20, 20, 715, 260);
+		
+		tablePanel.add(p);
+		//------------------------------------------------------------------------
+		JPanel writePanel = new JPanel();
+		writePanel.setBounds(10, 310, 490, 440);
+		writePanel.setBorder(BorderFactory.createTitledBorder("Write New Entry"));
+		writePanel.setLayout(null);
+		
+		JLabel WmodelLabel = new JLabel("Model: ");
+		WmodelLabel.setBounds(10, 50, 100,30);
+		
+		JLabel WmaufacturerLabel = new JLabel("Manufacturer: ");
+		WmaufacturerLabel.setBounds(10, 100, 100,30);
+		
+		JLabel WtypeLabel = new JLabel("Type: ");
+		WtypeLabel.setBounds(10, 150, 100,30);
+		
+		JLabel WcolorLabel = new JLabel("Color: ");
+		WcolorLabel.setBounds(10, 200, 100, 30);
+		
+		JTextField WmodelTextField = new JTextField();
+		WmodelTextField.setBounds(120,50, 250,30);
+		
+		String[] manufacturer = fhc.TransformTo1DArray(manufacturerFile);
+		JComboBox<String> WmanufacturerCB = new JComboBox<String>(manufacturer);
+		WmanufacturerCB.setBounds(120, 100, 250, 30);
+		
+		String[] type = fhc.TransformTo1DArray(typeFile);
+		JComboBox<String> WtypeCB = new JComboBox<String>(type);
+		WtypeCB.setBounds(120, 150, 250, 30);
+		
+		String[] color = fhc.TransformTo1DArray(colorFile);
+		JComboBox<String> WcolorCB = new JComboBox<String>(color);
+		WcolorCB.setBounds(120, 200, 250, 30);
+		
+		JButton WSubmit = new JButton("SUBMIT");
+		WSubmit.setBounds(10, 250, 470, 30);
+		
+		writePanel.add(WmodelLabel);
+		writePanel.add(WmanufacturerCB);
+		writePanel.add(WtypeLabel);
+		writePanel.add(WcolorLabel);
+		writePanel.add(WmaufacturerLabel);
+		writePanel.add(WmodelTextField);
+		writePanel.add(WtypeCB);
+		writePanel.add(WcolorCB);
+		writePanel.add(WSubmit);
+		
+		//---------------------------------------------------------------------------
+		JPanel editPanel = new JPanel();
+		editPanel.setBounds(10, 310, 490, 440);
+		editPanel.setBorder(BorderFactory.createTitledBorder("Edit Entry"));
+		
+		editPanel.setLayout(null);
+		
+		JLabel EmodelLabel = new JLabel("Model: ");
+		EmodelLabel.setBounds(10, 50, 100,30);
+		
+		JLabel EmaufacturerLabel = new JLabel("Manufacturer: ");
+		EmaufacturerLabel.setBounds(10, 100, 100,30);
+		
+		JLabel EtypeLabel = new JLabel("Type: ");
+		EtypeLabel.setBounds(10, 150, 100,30);
+		
+		JLabel EcolorLabel = new JLabel("Color: ");
+		EcolorLabel.setBounds(10, 200, 100, 30);
+		
+		JTextField EmodelTextField = new JTextField();
+		EmodelTextField.setBounds(120,50, 250,30);
+		
+	
+		JComboBox<String> EmanufacturerCB = new JComboBox<String>(manufacturer);
+		EmanufacturerCB.setBounds(120, 100, 250, 30);
+		
+
+		JComboBox<String> EtypeCB = new JComboBox<String>(type);
+		EtypeCB.setBounds(120, 150, 250, 30);
+		
+		JComboBox<String> EcolorCB = new JComboBox<String>(color);
+		EcolorCB.setBounds(120, 200, 250, 30);
+		
+		JButton ESubmit = new JButton("SUBMIT");
+		ESubmit.setBounds(10, 250, 470, 30);
+		
+		editPanel.add(EmodelLabel);
+		editPanel.add(EmanufacturerCB);
+		editPanel.add(EtypeLabel);
+		editPanel.add(EcolorLabel);
+		editPanel.add(EmaufacturerLabel);
+		editPanel.add(EmodelTextField);
+		editPanel.add(EtypeCB);
+		editPanel.add(EcolorCB);
+		editPanel.add(ESubmit);
+		//----------------------------------------------------------------------------
+		JPanel placeHolderPanel = new JPanel();
+		placeHolderPanel.setBounds(10, 410, 490, 440);
+		placeHolderPanel.setBorder(BorderFactory.createTitledBorder("Write/Edit will show here!"));
+		//------------------------------------------------------------------------
+		JPanel statusPanel = new JPanel();
+		statusPanel.setBounds(510, 510, 465, 200);
+		statusPanel.setBorder(BorderFactory.createTitledBorder("Status"));
+		//------------------------------------------------------------------
+		JPanel searchPanel = new JPanel();
+		searchPanel.setBounds(510, 310, 465, 150);
+		searchPanel.setBorder(BorderFactory.createTitledBorder("Search and Refresh"));
+		searchPanel.setLayout(null);
+		
+		JTextField searchTxtField = new JTextField();
+		searchTxtField.setBounds(10, 20, 300, 30);
+		
+		JButton searchButton = new JButton("ADD TO MANUFACTURER");
+		searchButton.setBounds(320, 20, 130, 30);
+		
+		JTextField typeTxtField = new JTextField();
+		typeTxtField.setBounds(10, 60, 300, 30);
+		
+		JButton refreshButton = new JButton("ADD TO TYPE");
+		refreshButton.setBounds(320, 60, 130, 30);
+		
+		JTextField colorTxtField = new JTextField();
+		colorTxtField.setBounds(10, 100, 300, 30);
+		
+		JButton colorButton = new JButton("ADD TO COLOR");
+		colorButton.setBounds(320, 100, 130, 30);
+		
+		searchPanel.add(typeTxtField);
+		searchPanel.add(searchTxtField);
+		searchPanel.add(searchButton);
+		searchPanel.add(refreshButton);
+		searchPanel.add(colorTxtField);
+		searchPanel.add(colorButton);
+		//-------------------------------------------------------------
+		//Global Action Events
+		WSubmit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String a = WmodelTextField.getText();
+				String b = WmanufacturerCB.getSelectedItem().toString();
+				String c =WtypeCB.getSelectedItem().toString();
+				String g = WcolorCB.getSelectedItem().toString();
+				
+				String d = a + "," + b + "," + c + "," + g;
+				try {
+					fhc.Write(file, d);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					dtm.setDataVector(fhc.getFileContentsArray(file), columnHeaders);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				writePanel.setVisible(false);
+				placeHolderPanel.setVisible(true);
+				
+			}
+		});
+		
+		ESubmit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String a = EmodelTextField.getText();
+				String b = EmanufacturerCB.getSelectedItem().toString();
+				String c =EtypeCB.getSelectedItem().toString();
+				String g = EcolorCB.getSelectedItem().toString();
+				
+				String d = a + "," + b + "," + c + "," + g;
+				
+				int f = table.getSelectedRow();
+				
+				try {
+					fhc.Edit(file, d,f);
+					dtm.setDataVector(fhc.getFileContentsArray(file), columnHeaders);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				editPanel.setVisible(false);
+				placeHolderPanel.setVisible(true);
+							
+			}
+		});
+		
+		writeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				placeHolderPanel.setVisible(false);
+				writePanel.setVisible(true);
+				editPanel.setVisible(false);
+				
+			}
+		});
+		
+		editButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				placeHolderPanel.setVisible(false);
+				editPanel.setVisible(true);
+				writePanel.setVisible(false);
+				
+			}
+		});
+		
+		clearButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					fhc.Clear(file);
+					dtm.setDataVector(fhc.getFileContentsArray(file), columnHeaders);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		deleteButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					fhc.Delete(file, table.getSelectedRow());
+					dtm.setDataVector(fhc.getFileContentsArray(file), columnHeaders);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		searchButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					fhc.Write(manufacturerFile, searchTxtField.getText());
+					WmanufacturerCB.addItem(searchTxtField.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		refreshButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					fhc.Write(typeFile, typeTxtField.getText());
+					WtypeCB.addItem(typeTxtField.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		//---------------------------------------------------------------
+		frame.add(statusPanel);
+		frame.add(searchPanel);
+		frame.add(placeHolderPanel);
+		//placeHolderPanel.setVisible(false);
+		frame.add(editPanel);
+		editPanel.setVisible(false);
+		frame.add(writePanel);
+		writePanel.setVisible(false);
+		frame.add(tablePanel);
+		frame.add(buttonsPanel);
+		frame.setResizable(false);
+		frame.setVisible(true);
+	}
+
+}
