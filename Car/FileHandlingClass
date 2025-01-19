@@ -1,0 +1,188 @@
+package Activity;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
+
+//Tagalog/Bisaya/English Comments
+public class FileHandlingClass
+{
+	public FileHandlingClass() 
+	{
+		
+	}
+
+	/*public void  Read(File file) throws IOException 
+	{
+		Scanner reader  = new  Scanner (new  FileReader(file));
+		int i  =0;
+		while(reader.hasNextLine()) 
+		{
+			i++;
+			String  s = reader.nextLine();
+			System.out.println(i + ". " + s);
+		}
+		reader.close();
+	}*/
+	
+	//----------------------------------------------
+	//In creating methods, if mas simple ang parameters, such as using...
+	//...primitive data types (String, int, double, etc.), mas simple din ang pag-invoke sa method.
+	public void Write(File file, String oneWhole) throws IOException 
+	{
+		FileWriter writer = new FileWriter(file, true);
+		writer.write(oneWhole + "\n");
+		writer.close();
+	}
+	
+	public void Clear(File file) throws IOException 
+	{
+		FileWriter writer = new FileWriter(file);
+		writer.write("");
+		writer.close();
+	}
+	
+	public  void Edit(File file, String oneWhole,  int index) throws IOException 
+	{
+		//Read(file);
+		ArrayList <String> contents = new  ArrayList<String>();
+		Scanner reader  = new  Scanner (new  FileReader(file));
+		while(reader.hasNextLine())
+		{
+			String  s = reader.nextLine();
+			contents.add(s);
+		}
+		
+		contents.set(index,  oneWhole);
+		
+		Clear(file);
+		
+		FileWriter writer = new FileWriter(file, true);
+		for(String e : contents) 
+		{
+			writer.write(e + "\n");
+		}	
+		writer.close();
+		reader.close();
+	}
+	
+	public void Delete(File file, int index) throws IOException 
+	{
+		ArrayList <String> contents = new  ArrayList<String>();
+		Scanner reader  = new  Scanner (new  FileReader(file));
+		while(reader.hasNextLine()) 
+		{
+			String  s = reader.nextLine();
+			contents.add(s);
+		}
+		
+		contents.remove(index);
+		Clear(file);
+		
+		FileWriter writer = new FileWriter(file, true);
+		for(String e : contents) 
+		{
+			writer.write(e + "\n");
+		}
+		
+		writer.close();
+		reader.close();	
+	}
+	
+	public void Search(File file, String searchKeyword) 
+	{
+		//You may add contents here. make sure to use the parameters given above.
+	}
+	
+	//This method is used to get how many lines are inside the file.
+	public int getFileLines(File file) throws IOException 
+	{
+		//For initialization, start tayo sa zero (0);
+		int i = 0;
+		Scanner reader = new Scanner (new FileReader (file));
+		//This is the Read while loop without the output.
+		while(reader.hasNextLine()) 
+		{
+			//As per iteration (or pagbalik sa loop), the i value is also increasing...
+			//Making this method return exactly kung ilang lines ang laman ng code.
+			i++;
+			String q = reader.nextLine();
+		}
+		reader.close();
+		return i;	
+	}
+	
+	public String[][] getFileContentsArray(File file) throws IOException
+	{
+		//This is the initialization of our 2D Array
+		//The getFileLines is used para makuha ang exact number of lines inside the file
+		//As explained sa code sa taas
+		String[][] fileContent = new String [getFileLines(file)][4];
+		
+		//This is the initialization of the ArrayList
+		//Dapat alam niyo na to. First Exam pa, eto na ginagawa naten
+		ArrayList<String>  str = new ArrayList<String>();
+		
+		//Dapat alam niyo na rin to.
+		Scanner reader = new Scanner (new FileReader(file));
+		
+		//This is to populate the contents ng ating ArrayList.
+		//Before this while loop, wala pang laman ang ating ArrayList
+		while(reader.hasNextLine()) //Checks if there's lines available inside the file
+		{
+			String s = reader.nextLine();//Reads the current line
+			str.add(s);//The .add(String string) is the method used to add elements to the ArrayList.
+		}
+		
+		
+		//This is the complex part.
+		//For the outer for loop, this is used for the rows of your 2D array.
+		for(int i = 0; i < str.size();i++) 
+		{
+			//Adding a temporary String[] array is a must for the columns.
+			//The str.get(Int index) method returns the element with the index of i
+			//The .split(String delimeter) method divides the string based on the specified parameter.
+			//For example, the parameter is ",". Now the comma will be used to determine where to split the String.
+			//If you have a String with the vaule of "Happy,Hello,Hi"...
+			//The string.split(",") will create an array with the elements {"Happy","Hello","Hi"}
+			String[] temp = str.get(i).split(",");
+			for (int j = 0; j <4; j++) 
+			{
+				//The inner for loop will populate the columns.
+				//This will be the syntax for populating the columns.
+				fileContent[i][j] = temp[j];				
+			}
+		}
+		
+		//This returns the 2D array converted from the ArrayList.
+		return fileContent;
+	}
+	
+	public String[] TransformTo1DArray(File file) throws IOException 
+	{
+		ArrayList<String> contents = new ArrayList<String>();
+		
+		Scanner reader = new Scanner(new FileReader(file));
+		while(reader.hasNextLine()) 
+		{
+			String p = reader.nextLine();
+			contents.add(p);
+		}
+		
+		String [] array = new String[contents.size()];
+		
+		for(int i=0;i<contents.size();i++) 
+		{
+			array[i] = contents.get(i);
+		}
+		
+		return(array);
+	}
+
+}
